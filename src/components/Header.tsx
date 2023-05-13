@@ -9,7 +9,7 @@ export default function Header() {
         <div className="flex items-center justify-start gap-4">
           <img src={logo} alt="" />
 
-          <nav>
+          <nav className="hidden">
             <ul className="flex items-center justify-start gap-4">
               <li>Collections</li>
               <li>Men</li>
@@ -24,7 +24,7 @@ export default function Header() {
           <ul className="flex items-center justify-start gap-4">
             <li>
               <button>
-                <AiOutlineShoppingCart />
+                <AiOutlineShoppingCart className="text-2xl text-slate-600" />
               </button>
             </li>
             <li>
