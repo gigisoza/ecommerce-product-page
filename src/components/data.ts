@@ -1,8 +1,14 @@
-export const data = [
+interface Data {
+  id: number;
+  mainImage: string;
+  thumbnail: string;
+}
+
+export const data: Data[] = [
   {
     id: 1,
-    mainImage: "../public/images/image-product-1.jpg",
-    thumbnail: "../public/images/image-product-1-thumbnail.jpg",
+    mainImage: "./images/image-product-1.jpg",
+    thumbnail: "./images/image-product-1-thumbnail.jpg",
   },
   {
     id: 2,
