@@ -10,6 +10,7 @@ function App() {
   const [products] = useState(data);
   const [value, setValue] = useState<number>(0);
   const [amount, setAmount] = useState<number>(0);
+  const [slideIndex, setSlideIndex] = useState<number>(1);
 
   const handleAmountPlus = () => {
     setAmount((amount) => amount + 1);
@@ -23,6 +24,22 @@ function App() {
     }
   };
 
+  const nextSlide = () => {
+    if (slideIndex !== products.length) {
+      setSlideIndex(slideIndex + 1);
+    } else if (slideIndex === products.length) {
+      setSlideIndex(1);
+    }
+  };
+
+  const prviousSlide = () => {
+    if (slideIndex !== 1) {
+      setSlideIndex(slideIndex - 1);
+    } else if (slideIndex === 1) {
+      setSlideIndex(products.length);
+    }
+  };
+
   const { mainImage } = products[value];
 
   return (
@@ -32,20 +49,37 @@ function App() {
       <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:mt-10">
         <article>
           <div>
-            <img src={mainImage} alt="" className="w-full lg:rounded-2xl" />
+            {products.map((item, index) => (
+              <div
+                key={index}
+                className={slideIndex === index + 1 ? "relative" : "hidden"}
+              >
+                <img
+                  src={item.mainImage}
+                  alt=""
+                  className="w-full lg:rounded-2xl"
+                />
 
-            <ul>
-              <li>
-                <button>
-                  <FaChevronLeft />
-                </button>
-              </li>
-              <li>
-                <button>
-                  <FaChevronRight />
-                </button>
-              </li>
-            </ul>
+                <ul>
+                  <li>
+                    <button
+                      onClick={nextSlide}
+                      className="bg-white rounded-full p-5 shadow absolute left-4 top-1/2 -translate-y-1/2"
+                    >
+                      <FaChevronLeft />
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={prviousSlide}
+                      className="bg-white rounded-full p-5 shadow absolute right-4 top-1/2 -translate-y-1/2"
+                    >
+                      <FaChevronRight />
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            ))}
           </div>
 
           <ul className="hidden lg:flex items-center justify-start gap-5 flex-wrap mt-5">
