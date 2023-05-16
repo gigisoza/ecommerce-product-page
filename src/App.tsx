@@ -1,13 +1,28 @@
 import { useState } from "react";
-import { data } from "./components/data";
+import { Data, data } from "./components/data";
 import Header from "./components/Header";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import AddToCart from "./components/AddToCart";
+import Lightbox from "./components/Lightbox";
+import Buy from "./components/Buy";
 
 function App() {
-  const [products] = useState(data);
+  const [products] = useState<Data[]>(data);
   const [value, setValue] = useState<number>(0);
+  const [amount, setAmount] = useState<number>(0);
   const [slideIndex, setSlideIndex] = useState<number>(1);
+  const [showBox, setShowBox] = useState<boolean>(false);
+
+  const handleAmountPlus = () => {
+    setAmount((amount) => amount + 1);
+  };
+
+  const handleAmountMinus = () => {
+    if (amount > 0) {
+      setAmount((amount) => amount - 1);
+    } else {
+      setAmount(amount);
+    }
+  };
 
   const nextSlide = () => {
     if (slideIndex !== products.length) {
@@ -17,12 +32,20 @@ function App() {
     }
   };
 
-  const prviousSlide = () => {
+  const previousSlide = () => {
     if (slideIndex !== 1) {
       setSlideIndex(slideIndex - 1);
     } else if (slideIndex === 1) {
       setSlideIndex(products.length);
     }
+  };
+
+  const handleBoxOne = () => {
+    setShowBox(true);
+  };
+
+  const handleBoxTwo = () => {
+    setShowBox(false);
   };
 
   const { mainImage } = products[value];
@@ -31,9 +54,19 @@ function App() {
     <>
       <Header />
 
+      {showBox && (
+        <Lightbox
+          products={products}
+          slideIndex={slideIndex}
+          nextSlide={nextSlide}
+          previousSlide={previousSlide}
+          handleBoxTwo={handleBoxTwo}
+        />
+      )}
+
       <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:place-items-center lg:py-20">
         <article>
-          <div>
+          <div className="lg:hidden">
             {products.map((item, index) => (
               <div
                 key={index}
@@ -56,7 +89,7 @@ function App() {
                   </li>
                   <li>
                     <button
-                      onClick={prviousSlide}
+                      onClick={previousSlide}
                       className="bg-white rounded-full p-5 shadow absolute right-4 top-1/2 -translate-y-1/2"
                     >
                       <FaChevronRight />
@@ -65,6 +98,15 @@ function App() {
                 </ul>
               </div>
             ))}
+          </div>
+
+          <div className="hidden lg:block">
+            <img
+              src={mainImage}
+              alt=""
+              className="w-full lg:rounded-2xl cursor-pointer"
+              onClick={handleBoxOne}
+            />
           </div>
 
           <ul className="hidden lg:flex items-center justify-start gap-5 flex-wrap mt-5">
@@ -82,7 +124,11 @@ function App() {
           </ul>
         </article>
 
-        <AddToCart />
+        <Buy
+          amount={amount}
+          handleAmountPlus={handleAmountPlus}
+          handleAmountMinus={handleAmountMinus}
+        />
       </section>
     </>
   );

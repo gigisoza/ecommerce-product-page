@@ -1,4 +1,4 @@
-interface Data {
+export interface Data {
   id: number;
   mainImage: string;
   thumbnail: string;

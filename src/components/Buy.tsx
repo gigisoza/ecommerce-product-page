@@ -1,22 +1,15 @@
-import { useState } from "react";
 import minus from "../assets/icon-minus.svg";
 import plus from "../assets/icon-plus.svg";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
-const AddToCart = () => {
-  const [amount, setAmount] = useState<number>(0);
+interface Props {
+  amount: number;
+  handleAmountPlus: () => void;
+  handleAmountMinus: () => void;
+}
 
-  const handleAmountPlus = () => {
-    setAmount((amount) => amount + 1);
-  };
-
-  const handleAmountMinus = () => {
-    if (amount > 0) {
-      setAmount((amount) => amount - 1);
-    } else {
-      setAmount(amount);
-    }
-  };
+const Buy = (props: Props) => {
+  const { amount, handleAmountPlus, handleAmountMinus } = props;
 
   return (
     <>
@@ -68,4 +61,4 @@ const AddToCart = () => {
   );
 };
 
-export default AddToCart;
+export default Buy;
